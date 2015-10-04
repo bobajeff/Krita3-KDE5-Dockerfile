@@ -46,7 +46,7 @@ RUN apt-get update && \
 	libarchive-dev \
 	liblmdb-dev
 
-#install qt comment out if you want to compile qt:
+#install qt -- comment out if you want to compile qt:
 RUN apt-get install -y \
 	qtbase5-dev \
 	qtbase5-private-dev \
@@ -70,7 +70,7 @@ RUN apt-get install -y \
 	libpoppler-qt5-dev
 
 #install build tools:
-RUN apt-get install -y git vim g++ cmake tar dialog
+RUN apt-get install -y git vim g++ cmake tar sudo
 
 #install VNC:
 RUN apt-get install -y x11vnc openbox
@@ -82,15 +82,14 @@ RUN apt-get install -y \
 
 #create kdedev environment
 RUN useradd -d /home/kdedev -m kdedev
-RUN apt-get install -y sudo && echo 'kdedev ALL=NOPASSWD: ALL' >> /etc/sudoers
+RUN echo 'kdedev ALL=NOPASSWD: ALL' >> /etc/sudoers
 USER kdedev
 ENV HOME /home/kdedev
 WORKDIR /home/kdedev/
 
-RUN echo "source $HOME/kf5/kf5.sh" >> .bashrc && \
-   mkdir kf5
+RUN echo "source $HOME/kf5/kf5.sh" >> .bashrc && mkdir kf5
+COPY kf5.sh /home/kdedev/kf5/
 COPY kdesrcbuildrc /home/kdedev/
 RUN mv kdesrcbuildrc .kdesrc-buildrc
-COPY kf5.sh /home/kdedev/kf5/
 
 ENTRYPOINT ["/bin/bash"]
