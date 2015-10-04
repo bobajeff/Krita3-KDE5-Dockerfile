@@ -1,0 +1,115 @@
+FROM ubuntu:vivid
+MAINTAINER Jeffrey Brusseau <bobajeff82@gmail.com>
+
+# FRAMEWORKS            |       BUILD DEPENDENCY
+#-----------------------|---------------------------------
+
+# Install dependencies
+#---------------------------
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && \
+    apt-key adv --recv-keys && \
+    apt-get build-dep -y qtbase5-dev && \
+	apt-get install -y \
+	libbz2-dev \
+	libxslt-dev \
+	libxml2-dev \
+	shared-mime-info \
+	oxygen-icon-theme \
+	libgif-dev \
+	libvlc-dev \
+	libvlccore-dev \
+	doxygen \
+	gperf \
+	bzr \
+	libxapian-dev \
+	fontforge \
+	libgcrypt20-dev \
+	libattr1-dev \
+	network-manager-dev \
+	libgtk-3-dev \
+	xsltproc \
+	xserver-xorg-dev \
+	xserver-xorg-input-synaptics-dev \
+	libpwquality-dev \
+	modemmanager-dev \
+	libxcb-keysyms1-dev \
+	libepoxy-dev \
+	libpolkit-agent-1-dev \
+	libnm-util-dev \
+	libnm-glib-dev \
+	libegl1-mesa-dev \
+	libxcb-xkb-dev \
+	libqt5x11extras5-dev \
+	libwww-perl \
+	libxml-parser-perl \
+	libjson-perl \
+	libboost1.55-dev \
+	libgstreamer-plugins-base1.0-dev \
+	libgstreamer1.0-dev \
+	libarchive-dev \
+	liblmdb-dev
+
+#install build tools
+RUN apt-get install -y git vim g++ cmake tar dialog
+
+#install VNC
+RUN apt-get install -y x11vnc openbox
+
+
+#install qt comment out if you want to compile qt
+RUN apt-get install -y \
+	qtbase5-dev \
+	qtbase5-private-dev \
+	libqt5x11extras5-dev \
+	qtscript5-dev \
+	qttools5-dev \
+	libqt5svg5-dev \
+	libqt5xmlpatterns5-dev \
+	qttools5-dev-tools \
+	qtdeclarative5-dev
+
+
+#install extra depenencies
+RUN apt-get install -y \
+	docbook-xsl \
+	libqt5webkit5-dev
+
+#install krita dependencies
+RUN apt-get install -y \
+	libboost-system1.55-dev \
+	libeigen3-dev \
+	libexiv2-dev \
+	liblcms2-dev \
+	libopenexr-dev \
+	libgsl0-dev \
+	vc-dev \
+	libpoppler-qt5-dev
+
+#create kdedev environment
+RUN useradd -d /home/kdedev -m kdedev
+RUN apt-get install -y sudo && echo 'kdedev ALL=NOPASSWD: ALL' >> /etc/sudoers
+USER kdedev
+ENV HOME /home/kdedev
+WORKDIR /home/kdedev/
+
+
+
+# kde anongit url alias
+RUN git config --global url."git://anongit.kde.org/".insteadOf kde: && \
+    git config --global url."ssh://git@git.kde.org/".pushInsteadOf kde: && \
+    mkdir -p extragear/utils && \
+    git clone kde:kdesrc-build extragear/utils/kdesrc-build && \
+    ln -s extragear/utils/kdesrc-build/kdesrc-build .
+
+RUN echo "source $HOME/kf5/kf5.sh" >> .bashrc && \
+   mkdir kf5
+COPY kdesrcbuildrc /home/kdedev/
+RUN mv kdesrcbuildrc .kdesrc-buildrc
+COPY kf5.sh /home/kdedev/kf5/
+
+
+
+VOLUME /home/kdedev/
+
+ENTRYPOINT ["/bin/bash"]
