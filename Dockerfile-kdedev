@@ -1,11 +1,7 @@
 FROM ubuntu:vivid
 MAINTAINER Jeffrey Brusseau <bobajeff82@gmail.com>
 
-# FRAMEWORKS            |       BUILD DEPENDENCY
-#-----------------------|---------------------------------
-
-# Install dependencies
-#---------------------------
+# Install dependencies (for QT and KDE):
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-key adv --recv-keys && \
@@ -50,14 +46,7 @@ RUN apt-get update && \
 	libarchive-dev \
 	liblmdb-dev
 
-#install build tools
-RUN apt-get install -y git vim g++ cmake tar dialog
-
-#install VNC
-RUN apt-get install -y x11vnc openbox
-
-
-#install qt comment out if you want to compile qt
+#install qt comment out if you want to compile qt:
 RUN apt-get install -y \
 	qtbase5-dev \
 	qtbase5-private-dev \
@@ -69,13 +58,7 @@ RUN apt-get install -y \
 	qttools5-dev-tools \
 	qtdeclarative5-dev
 
-
-#install extra depenencies
-RUN apt-get install -y \
-	docbook-xsl \
-	libqt5webkit5-dev
-
-#install krita dependencies
+#install krita dependencies:
 RUN apt-get install -y \
 	libboost-system1.55-dev \
 	libeigen3-dev \
@@ -86,6 +69,17 @@ RUN apt-get install -y \
 	vc-dev \
 	libpoppler-qt5-dev
 
+#install build tools:
+RUN apt-get install -y git vim g++ cmake tar dialog
+
+#install VNC:
+RUN apt-get install -y x11vnc openbox
+
+#install extra depenencies -- it's a good idea to add dependencies here for Docker cache/faster image builds:
+RUN apt-get install -y \
+	docbook-xsl \
+	libqt5webkit5-dev
+
 #create kdedev environment
 RUN useradd -d /home/kdedev -m kdedev
 RUN apt-get install -y sudo && echo 'kdedev ALL=NOPASSWD: ALL' >> /etc/sudoers
@@ -93,23 +87,10 @@ USER kdedev
 ENV HOME /home/kdedev
 WORKDIR /home/kdedev/
 
-
-
-# kde anongit url alias
-RUN git config --global url."git://anongit.kde.org/".insteadOf kde: && \
-    git config --global url."ssh://git@git.kde.org/".pushInsteadOf kde: && \
-    mkdir -p extragear/utils && \
-    git clone kde:kdesrc-build extragear/utils/kdesrc-build && \
-    ln -s extragear/utils/kdesrc-build/kdesrc-build .
-
 RUN echo "source $HOME/kf5/kf5.sh" >> .bashrc && \
    mkdir kf5
 COPY kdesrcbuildrc /home/kdedev/
 RUN mv kdesrcbuildrc .kdesrc-buildrc
 COPY kf5.sh /home/kdedev/kf5/
-
-
-
-VOLUME /home/kdedev/
 
 ENTRYPOINT ["/bin/bash"]
