@@ -5,7 +5,7 @@ A set of Dockerfiles and scripts to set up a build/test environment for Krita3
 
 To set this up download the files create kdedev image:
 ``` bash
-sudo docker build -t kdedev -f Dockerfile-kdedev1.2 /home/$USER
+sudo docker build -t kdedev -f Dockerfile-kdedev /home/$USER
 ```
 Then create the kdebuilddata data volume container:
 ``` bash
@@ -19,7 +19,16 @@ sudo docker run --name kdework --rm --volumes-from kdebuilddata -it kdedev
 
 #Compile KDE Frameworks
 
-Inside the container run:
+Inside the container clone kdesrc-build:
+``` bash
+git config --global url."git://anongit.kde.org/".insteadOf kde: && \
+    git config --global url."ssh://git@git.kde.org/".pushInsteadOf kde: && \
+    mkdir -p extragear/utils && \
+    git clone kde:kdesrc-build extragear/utils/kdesrc-build && \
+    ln -s extragear/utils/kdesrc-build/kdesrc-build .
+```
+
+Then run kdesrc-build:
 ``` bash
 ./kdesrc-build extra-cmake-modules
 ./kdesrc-build phonon
