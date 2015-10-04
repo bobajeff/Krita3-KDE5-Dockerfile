@@ -78,3 +78,4 @@ Now inside the container you can run Krita:
 ``` bash
 krita &
 ```
+![alt tag](https://cloud.githubusercontent.com/assets/8573364/10269716/596e5718-6aa4-11e5-9fb4-59c50f44bcef.png)
