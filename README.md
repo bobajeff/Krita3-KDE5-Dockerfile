@@ -9,7 +9,7 @@ sudo docker build -t kdedev -f Dockerfile-kdedev /home/$USER
 ```
 Then create the kdebuilddata data volume container:
 ``` bash
-sudo docker run --name kdebuilddata -it kdedev
+sudo docker create -v /home/kdedev/ --name kdebuilddata -it kdedev
 ```
 
 Then create the kdework container and mounting the to the kdebuilddata volume.
