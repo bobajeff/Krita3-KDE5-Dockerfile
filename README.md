@@ -76,7 +76,7 @@ openbox &
 
 On the host/client machine run find the ip address of the kdework container:
 ``` bash
-sudo docker inspect kdework
+sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' kdework
 ```
 
 Then connect to it with a VNC client (put the ipaddress from the previous step instead of [ipaddress]):
