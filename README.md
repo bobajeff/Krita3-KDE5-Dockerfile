@@ -74,14 +74,9 @@ sudo x11vnc -display $DISPLAY &
 openbox &
 ```
 
-On the host/client machine run find the ip address of the kdework container:
+From the host machine. Find the ip address of the kdework container and connect to it with a VNC client:
 ``` bash
-sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' kdework
-```
-
-Then connect to it with a VNC client (put the ipaddress from the previous step instead of [ipaddress]):
-``` bash
-vncviewer [ipaddress]:5900
+vncviewer $(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' kdework):5900
 ```
 
 Now inside the container you can run Krita:
