@@ -78,9 +78,23 @@ From the host machine. Find the ip address of the kdework container and connect 
 ``` bash
 vncviewer $(sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' kdework):5900
 ```
+*If the previous command didn't work you most likely have a version of Docker with different json structure. You'll need to manually find the ipaddress via 'docker inspect kdework' and start your client with that plus ':5900'*
 
 Now inside the container you can run Krita:
 ``` bash
 krita &
 ```
 ![alt tag](https://cloud.githubusercontent.com/assets/8573364/10269716/596e5718-6aa4-11e5-9fb4-59c50f44bcef.png)
+
+#Access the volume data from the host
+
+To get the location of the files in your data volume container run:
+``` bash
+sudo docker inspect --format '{{ index .Volumes "/home/kdedev" }}' kdebuilddata
+```
+*(again if this doesn't work you'll have to manually find the location via docker inspect)*
+
+You can open it up in a filemanager via gksu for example:
+``` bash
+gksu pcmanfm $(sudo docker inspect --format '{{ index .Volumes "/home/kdedev" }}' kdework)
+```
