@@ -96,5 +96,5 @@ sudo docker inspect --format '{{ index .Volumes "/home/kdedev" }}' kdebuilddata
 
 You can open it up in a filemanager via gksu for example:
 ``` bash
-gksu pcmanfm $(sudo docker inspect --format '{{ index .Volumes "/home/kdedev" }}' kdework)
+gksu pcmanfm $(sudo docker inspect --format '{{ index .Volumes "/home/kdedev" }}' kdebuilddata)
 ```
