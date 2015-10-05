@@ -3,9 +3,9 @@ A set of Dockerfiles and scripts to set up a build/test environment for Krita3
 
 #Build the kdework container
 
-To set this up download the files create kdedev image:
+To set this up: Download the files then create kdedev image with:
 ``` bash
-sudo docker build -t kdedev -f Dockerfile-kdedev /home/$USER
+sudo docker build -t kdedev -f Dockerfile-kdedev .
 ```
 Then create the kdebuilddata data volume container:
 ``` bash
@@ -41,6 +41,7 @@ Check out Krita-Next:
 ``` bash
 cd ~/kf5/src/
 git clone git://anongit.kde.org/calligra
+cd calligra/
 git checkout krita-next
 ```
 
