@@ -69,8 +69,8 @@ RUN apt-get install -y \
 	vc-dev \
 	libpoppler-qt5-dev
 
-#install build tools:
-RUN apt-get install -y git vim g++ cmake tar sudo
+#install dev tools:
+RUN apt-get install -y git vim vim-nox vim-syntastic exuberant-ctags g++ cmake tar sudo
 
 #install VNC:
 RUN apt-get install -y x11vnc openbox
