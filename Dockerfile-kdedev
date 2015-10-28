@@ -46,17 +46,18 @@ RUN apt-get update && \
 	libarchive-dev \
 	liblmdb-dev
 
-#install qt -- comment out if you want to compile qt:
-RUN apt-get install -y \
-	qtbase5-dev \
-	qtbase5-private-dev \
-	libqt5x11extras5-dev \
-	qtscript5-dev \
-	qttools5-dev \
-	libqt5svg5-dev \
-	libqt5xmlpatterns5-dev \
-	qttools5-dev-tools \
-	qtdeclarative5-dev
+#install qt -- uncomment the Instructions below if you aren't compiling qt:
+#RUN apt-get install -y \
+#	qtbase5-dev \
+#	qtbase5-private-dev \
+#	libqt5x11extras5-dev \
+#	qtscript5-dev \
+#	qttools5-dev \
+#	libqt5svg5-dev \
+#	libqt5xmlpatterns5-dev \
+#	qttools5-dev-tools \
+#	qtdeclarative5-dev \
+# 	libqt5webkit5-dev
 
 #install krita dependencies:
 RUN apt-get install -y \
@@ -77,8 +78,8 @@ RUN apt-get install -y x11vnc openbox
 
 #install extra depenencies -- it's a good idea to add dependencies here for Docker cache/faster image builds:
 RUN apt-get install -y \
-	docbook-xsl \
-	libqt5webkit5-dev
+	docbook-xsl 
+
 
 #create kdedev environment
 RUN useradd -d /home/kdedev -m kdedev
