@@ -56,6 +56,8 @@ Then run kdesrc-build:
 ./kdesrc-build frameworks
 ```
 
+*Note: the KDEWebkit module will fail to build since QtWebkitWidgets is missing. That's fine since Krita doesn't need/use it at all.*
+
 #Download and Compile Krita 3
 
 Check out Krita-Next:
