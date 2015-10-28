@@ -2,7 +2,7 @@
  
 global
  
-  qtdir /usr
+  qtdir  /home/kdedev/kf5/qt5/qtbase
   source-dir /home/kdedev/kf5/src
   build-dir /home/kdedev/kf5/build
   kdedir /home/kdedev/kf5/inst
