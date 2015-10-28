@@ -16,10 +16,31 @@ Then create the kdework container and mounting the to the kdebuilddata volume.
 ``` bash
 sudo docker run --name kdework --rm --volumes-from kdebuilddata -it kdedev
 ```
+#Compile Qt5
+
+Inside the container `cd` to the kf5 directory:
+``` bash
+cd kf5/
+```
+Then clone then compiles qt from git:
+``` bash
+git clone git://code.qt.io/qt/qt5.git --branch 5.5
+cd qt5
+./init-repository
+./configure -prefix $PWD/qtbase -opensource -confirm-license -nomake tests -nomake examples -dbus \
+  -no-separate-debug-info -xcb -system-xcb -qpa xcb -no-gtkstyle -release -force-debug-info -reduce-relocations \
+  -optimized-qmake
+make
+```
 
 #Compile KDE Frameworks
 
-Inside the container clone kdesrc-build:
+Change back to the home directory:
+``` bash
+cd
+```
+
+Clone kdesrc-build:
 ``` bash
 git config --global url."git://anongit.kde.org/".insteadOf kde: && \
     git config --global url."ssh://git@git.kde.org/".pushInsteadOf kde: && \
